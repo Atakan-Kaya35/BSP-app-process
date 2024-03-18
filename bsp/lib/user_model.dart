@@ -41,17 +41,17 @@ class UserModel {
   }
 
   Future<List<double>> fetchData() async {
-  final response = await http.get(Uri.parse(this.jsonLink));
+    final response = await http.get(Uri.parse(this.jsonLink));
 
-  if (response.statusCode == 200) {
-    // Parse JSON and convert it to List<double>
-    List<dynamic> rawData = json.decode(response.body);
-    List<double> doubleList = rawData.map((value) => value.toDouble()).toList().cast<double>();
+    if (response.statusCode == 200) {
+      // Parse JSON and convert it to List<double>
+      List<dynamic> rawData = json.decode(response.body);
+      List<double> doubleList = rawData.map((value) => value.toDouble()).toList().cast<double>();
 
-    return doubleList;
-  } else {
-    throw Exception('Failed to load data');
-  }
+      return doubleList;
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   Image? getUpdatedImage() {
