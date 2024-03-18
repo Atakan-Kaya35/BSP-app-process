@@ -2,6 +2,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:bsp/noti.dart';
 import 'package:bsp/user_holder.dart';
 import 'package:bsp/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -77,23 +78,6 @@ class _HomePageState extends State<HomePage> {
 
       backgroundColor: Colors.white,    
  
-/*       body: Center(
-          child: FutureBuilder<List<double>>(
-            future: fetchData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                // Display the elements in a Text widget
-                return Text(snapshot.data.toString());
-              } else if (snapshot.hasError) {
-                // Handle errors
-                return Text('Error: ${snapshot.error}');
-              } else {
-                // Display a loading indicator while waiting for the data
-                return CircularProgressIndicator();
-              }
-            },
-          ),) 
-  */
         body: SingleChildScrollView(
         // Set height to cover the entire vertical space
         //height: MediaQuery.of(context).size.height,
@@ -148,11 +132,12 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 14
                               ),
                             ),
-                            /* Container(
+                            /* PyPlotLib depiction code
+                            Container(
                               height: models[index].image?.height,
                               child: models[index].getUpdatedImage(),
-                            ), */
-                            /* Container(
+                            ),
+                            Container(
                               height: models[index].image?.height, // Set the height as needed
                               child: () {
                                 models[index].updateImage(); 
@@ -173,12 +158,12 @@ class _HomePageState extends State<HomePage> {
                                   
                                   if (snapshot.data![0] == 0){
                                     models[index].bgColor = Colors.red;
-                                    //Noti().showNotification(body: "Emergency!", title: "BSP");
+                                    Noti().showNotification(body: "Emergency!", title: "BSP");
                                   }
                                   else{
                                     models[index].bgColor = Colors.green;
                                     //startBackgroundTask();
-                                    //Noti().showNotification(body: "You are fine!", title: "BSP");
+                                    Noti().showNotification(body: "You are fine!", title: "BSP");
                                   }
 
                                   String shower = "";
