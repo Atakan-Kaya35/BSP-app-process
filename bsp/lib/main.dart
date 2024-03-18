@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:bsp/background_services.dart';
 import 'package:bsp/homePage.dart';
 import 'package:bsp/noti.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,11 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await initservice();
+  //await initservice();
 
+  BG_Services BGS = BG_Services();
+  await BGS.initservice();
+  
   runApp(const MyApp());
 }
 

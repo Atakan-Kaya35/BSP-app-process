@@ -16,9 +16,10 @@ class BG_Services {
     holder.addUser("Atakan Kaya", "https://drive.google.com/uc?export=view&id=1Js0UDC3WrYu2tX5wIvhMXIQ0GJJFTW0Q", 'https://drive.google.com/uc?export=view&id=1P8MgKlcdH-2b0pRByNWVHE9cMY1ynI-N');
   }
 
-  static Future<void> initservice() async{
+  Future<void> initservice() async{
     // variables
     var service = FlutterBackgroundService();
+
     await service.configure(
       iosConfiguration: IosConfiguration(
         onBackground: iosBackground,
@@ -31,10 +32,10 @@ class BG_Services {
         notificationChannelId: "notichannelid",
         initialNotificationTitle: "Initial Noti",
         initialNotificationContent: "Initial noti content",
-        foregroundServiceNotificationId: 90
+        foregroundServiceNotificationId: 0
         )
       );
-    service.startService();
+      service.startService();
   }
 
   // onstant method
@@ -53,7 +54,7 @@ class BG_Services {
       service.stopSelf();
     });
 
-    Timer.periodic(Duration(seconds: 100), (timer){
+    Timer.periodic(Duration(seconds: 10), (timer){
       checkWellness();
     });
   }
@@ -70,28 +71,28 @@ class BG_Services {
     UserHolder holder = UserHolder();
     int lastTime = 0;
     holder.addUser("Atakan Kaya", "https://drive.google.com/uc?export=view&id=1Js0UDC3WrYu2tX5wIvhMXIQ0GJJFTW0Q", 'https://drive.google.com/uc?export=view&id=1P8MgKlcdH-2b0pRByNWVHE9cMY1ynI-N');
-
     List<UserModel> models = holder.giveEm();
     var values = models[0].fetchData();
 
-    FutureBuilder<List<double>>(
-      future: models[0].fetchData(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          
-          if (snapshot.data![0] == 1 && lastTime != 1){
-            lastTime = 1;
-            Noti().showNotification(body: "You are fine.", title: "BSP");
-          }
-          else if(lastTime == 1){}
-          else{
-            lastTime = 0;
-            //startBackgroundTask();
-            Noti().showNotification(body: "Emergency!", title: "BSP");
-          }
-        }
-        return Column();
-      }
-    );
+    checkAndUpdateNotifications(models[0], lastTime);
   } 
+
+  static void checkAndUpdateNotifications(UserModel model, int lastTime) async {
+    var data = await model.fetchData();
+
+    if (data.isNotEmpty) {
+      if (data[0] == 1
+       //&& lastTime != 1
+       ) {
+        lastTime = 1;
+        Noti().showNotification(body: "Back. You are fine.", title: "BSP");
+      } else if (lastTime == 1) {
+        // Do nothing
+      } else {
+        lastTime = 0;
+        //startBackgroundTask();
+        Noti().showNotification(body: "Back. Emergency!", title: "BSP");
+      }
+    }
+  }
 }
